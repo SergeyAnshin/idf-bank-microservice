@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: idf-bank-microservice
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  messages:
+    basename: messages/Messages
