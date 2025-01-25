@@ -1,7 +1,7 @@
 package org.sergey.idf_bank_microservice.entitypersister;
 
-import org.sergey.idf_bank_microservice.exception.EntityNotFoundException;
 import org.sergey.idf_bank_microservice.entity.GeneralEntity;
+import org.sergey.idf_bank_microservice.exception.EntityNotExistsException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -20,11 +20,10 @@ public abstract class BaseEntityPersistenceService<E extends GeneralEntity> impl
             if (existingEntity.isPresent()) {
                 return existingEntity.get();
             } else {
-                throw new EntityNotFoundException(
-                        String.format("Entity with type %s not found by params %s", entity.getClass().getSimpleName(),
-                                      findFunctionParam));
+                throw new EntityNotExistsException(entity.getClass(), findFunctionParam.toString());
             }
+        } else {
+            return entity;
         }
-        return entity;
     }
 }

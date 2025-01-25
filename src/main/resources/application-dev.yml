@@ -13,3 +13,7 @@ spring:
   liquibase:
     enabled: true
     change-log: db/changelog/db.changelog-master.yml
+
+logging:
+  file:
+    path: src/main/resources/logs

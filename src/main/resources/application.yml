@@ -5,3 +5,4 @@ spring:
     active: ${ACTIVE_PROFILE:dev}
   messages:
     basename: messages/Messages
+    encoding: UTF-8
