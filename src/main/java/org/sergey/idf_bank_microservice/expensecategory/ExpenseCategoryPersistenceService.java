@@ -14,6 +14,7 @@ public class ExpenseCategoryPersistenceService extends BaseEntityPersistenceServ
     @Override
     @Transactional
     public ExpenseCategory persist(ExpenseCategory expenseCategory) {
-        return super.persist(expenseCategory, expenseCategoryRepository::findByName, expenseCategory.getName());
+        return super.persist(expenseCategory, expenseCategoryRepository::findByValue, expenseCategory.getValue());
     }
+
 }

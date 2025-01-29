@@ -1,3 +1,11 @@
+exchange-rate-fetcher:
+  executor-service:
+    currency-pair:
+      pool-size: 4
+    exchange-rate-source:
+      pool-size: 8
+  cron-fetch-schedule: 0 1 0 * * ?
+
 spring:
   application:
     name: idf-bank-microservice

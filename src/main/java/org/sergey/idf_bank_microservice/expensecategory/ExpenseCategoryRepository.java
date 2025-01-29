@@ -6,9 +6,9 @@ import java.util.Optional;
 
 public interface ExpenseCategoryRepository extends JpaRepository<ExpenseCategory, Long> {
 
-    boolean existsByName(String name);
+    boolean existsByValue(String value);
 
-    Optional<ExpenseCategory> findByName(String name);
+    Optional<ExpenseCategory> findByValue(String value);
 
 }
 

@@ -16,7 +16,7 @@ public class ExistingExpenseCategoryValidator implements ConstraintValidator<Exi
     @Override
     public boolean isValid(String expenseCategory, ConstraintValidatorContext context) {
         if (nonNull(expenseCategory)) {
-            return expenseCategoryService.existsByName(expenseCategory);
+            return expenseCategoryService.existsByValue(expenseCategory);
         } else {
             return false;
         }

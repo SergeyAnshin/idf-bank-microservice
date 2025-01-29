@@ -10,7 +10,11 @@ import org.sergey.idf_bank_microservice.entity.GeneralEntity;
 @AllArgsConstructor
 @Getter
 @Setter
-public class EntityNotExistsException extends ApplicationException {
-    private Class<? extends GeneralEntity> entityClass;
+public class EntityNotExistsException extends EntityRelatedException {
     private String lookupFieldValue;
+
+    public EntityNotExistsException(Class<? extends GeneralEntity> entityClass, String lookupFieldValue) {
+        super(entityClass);
+        this.lookupFieldValue = lookupFieldValue;
+    }
 }

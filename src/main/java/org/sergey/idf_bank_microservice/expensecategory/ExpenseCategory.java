@@ -18,6 +18,7 @@ import org.sergey.idf_bank_microservice.entity.GeneralEntity;
         @AttributeOverride(name = "id", column = @Column(name = "expense_category_id"))
 })
 public class ExpenseCategory extends GeneralEntity {
-    private String name;
+    @Column(name = "val")
+    private String value;
 
 }

@@ -1,8 +1,9 @@
-package org.sergey.idf_bank_microservice.currency;
+package org.sergey.idf_bank_microservice.currency.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
+import org.sergey.idf_bank_microservice.currency.CurrencyRepository;
 import org.springframework.stereotype.Component;
 
 import static java.util.Objects.nonNull;

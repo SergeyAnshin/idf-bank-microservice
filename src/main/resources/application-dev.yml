@@ -1,14 +1,23 @@
+exchange-rate-fetcher:
+  executor-service:
+    currency-pair:
+      pool-size: 4
+    exchange-rate-source:
+      pool-size: 8
+  cron-fetch-schedule: 0 1 0 * * ?
+
 spring:
   datasource:
     url: jdbc:h2:mem:bank_db;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
     username: sa
-    password: password
   h2:
     console:
       enabled: true
   jpa:
     hibernate:
       ddl-auto: none
+      format-sql: true
+      highlight-sql: true
     show-sql: true
   liquibase:
     enabled: true

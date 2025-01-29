@@ -1,4 +1,4 @@
-package org.sergey.idf_bank_microservice.currency;
+package org.sergey.idf_bank_microservice.currency.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

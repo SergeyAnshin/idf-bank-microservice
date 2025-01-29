@@ -2,6 +2,7 @@ package org.sergey.idf_bank_microservice.currencypair;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.sergey.idf_bank_microservice.currency.Currency;
 import org.sergey.idf_bank_microservice.entity.GeneralEntity;
 import org.sergey.idf_bank_microservice.exchangeratesource.ExchangeRateSource;
@@ -9,6 +10,7 @@ import org.sergey.idf_bank_microservice.exchangeratesource.ExchangeRateSource;
 import java.util.List;
 
 @NoArgsConstructor
+@SuperBuilder
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
@@ -38,7 +40,10 @@ public class CurrencyPair extends GeneralEntity {
     private Currency sellCurrency;
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @ManyToMany(mappedBy = "currencyPairs")
+    @ManyToMany
+    @JoinTable(name = "currency_pair_has_exchange_rate_source",
+            joinColumns = @JoinColumn(name = "currency_pair_id", referencedColumnName = "currency_pair_id"),
+            inverseJoinColumns = @JoinColumn(name = "rate_source_id", referencedColumnName = "rate_source_id"))
     private List<ExchangeRateSource> exchangeRateSources;
 
 }

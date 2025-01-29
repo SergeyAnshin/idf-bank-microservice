@@ -15,15 +15,15 @@ import static org.sergey.idf_bank_microservice.entitypersister.EntityPersistence
 public class ExpenseCategoryService {
     private final ExpenseCategoryRepository expenseCategoryRepository;
 
-    public boolean existsByName(String name) {
-        return expenseCategoryRepository.existsByName(name);
+    public boolean existsByValue(String name) {
+        return expenseCategoryRepository.existsByValue(name);
     }
 
     @Transactional
     public ExpenseCategory persist(ExpenseCategory expenseCategory) {
         if (nonNull(expenseCategory) && nonPersist(expenseCategory)) {
-            Optional<ExpenseCategory> existingExpenseCategory = expenseCategoryRepository.findByName(
-                    expenseCategory.getName());
+            Optional<ExpenseCategory> existingExpenseCategory = expenseCategoryRepository.findByValue(
+                    expenseCategory.getValue());
             return existingExpenseCategory.orElseGet(() -> expenseCategoryRepository.save(expenseCategory));
         }
         return expenseCategory;
