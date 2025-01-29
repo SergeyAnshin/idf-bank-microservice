@@ -1,17 +1,17 @@
 package org.sergey.idf_bank_microservice.bankaccount;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.AttributeOverrides;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.sergey.idf_bank_microservice.currency.Currency;
 import org.sergey.idf_bank_microservice.entity.GeneralEntity;
 
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = true)
 
 @Entity
 @AttributeOverrides({
@@ -19,5 +19,8 @@ import org.sergey.idf_bank_microservice.entity.GeneralEntity;
 })
 public class BankAccount extends GeneralEntity {
     private int number;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "currency_id", nullable = false, updatable = false)
+    private Currency currency;
 }
 

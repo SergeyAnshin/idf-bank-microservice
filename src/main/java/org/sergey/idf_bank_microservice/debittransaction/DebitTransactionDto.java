@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import org.sergey.idf_bank_microservice.currency.AlphabeticCurrencyCode;
-import org.sergey.idf_bank_microservice.currency.SupportedCurrency;
+import org.sergey.idf_bank_microservice.currency.validation.AlphabeticCurrencyCode;
+import org.sergey.idf_bank_microservice.currency.validation.SupportedCurrency;
 import org.sergey.idf_bank_microservice.expensecategory.ExistingExpenseCategory;
 import org.sergey.idf_bank_microservice.validation.OffsetDateTimeFormat;
 

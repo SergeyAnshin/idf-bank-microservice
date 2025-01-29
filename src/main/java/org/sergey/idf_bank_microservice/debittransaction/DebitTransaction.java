@@ -1,13 +1,11 @@
 package org.sergey.idf_bank_microservice.debittransaction;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.sergey.idf_bank_microservice.entity.GeneralEntity;
 import org.sergey.idf_bank_microservice.bankaccount.BankAccount;
 import org.sergey.idf_bank_microservice.currency.Currency;
+import org.sergey.idf_bank_microservice.entity.GeneralEntity;
 import org.sergey.idf_bank_microservice.expensecategory.ExpenseCategory;
 
 import java.math.BigDecimal;
@@ -19,6 +17,8 @@ import static jakarta.persistence.CascadeType.PERSIST;
 @SuperBuilder(toBuilder = true)
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 
 @Entity
 @AttributeOverrides({
@@ -33,8 +33,9 @@ public class DebitTransaction extends GeneralEntity {
     private BankAccount counterpartyBankAccount;
     @ManyToOne(cascade = PERSIST, optional = false)
     @JoinColumn(name = "account_currency_id", nullable = false, updatable = false)
-    private Currency accountCurrency;
+    private Currency currency;
     private BigDecimal amount;
+    private BigDecimal convertedAmount;
     @ManyToOne(cascade = PERSIST, optional = false)
     @JoinColumn(name = "expense_category_id", nullable = false, updatable = false)
     private ExpenseCategory expenseCategory;

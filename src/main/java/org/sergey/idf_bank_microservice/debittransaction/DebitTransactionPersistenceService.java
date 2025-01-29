@@ -23,15 +23,15 @@ public class DebitTransactionPersistenceService extends BaseEntityPersistenceSer
     @Transactional
     public DebitTransaction persist(DebitTransaction debitTransaction) {
         BankAccount clientBankAccount = bankAccountPersistenceService.persist(debitTransaction.getClientBankAccount());
-        BankAccount counterpartyBankAccount = bankAccountPersistenceService.persist(
-                debitTransaction.getCounterpartyBankAccount());
-        Currency accountCurrency = currencyPersistenceService.persist(debitTransaction.getAccountCurrency());
-        ExpenseCategory expenseCategory = expenseCategoryPersistenceService.persist(
-                debitTransaction.getExpenseCategory());
+        BankAccount counterpartyBankAccount
+                = bankAccountPersistenceService.persist(debitTransaction.getCounterpartyBankAccount());
+        Currency accountCurrency = currencyPersistenceService.persist(debitTransaction.getCurrency());
+        ExpenseCategory expenseCategory
+                = expenseCategoryPersistenceService.persist(debitTransaction.getExpenseCategory());
         return debitTransaction.toBuilder()
                                .clientBankAccount(clientBankAccount)
                                .counterpartyBankAccount(counterpartyBankAccount)
-                               .accountCurrency(accountCurrency)
+                               .currency(accountCurrency)
                                .expenseCategory(expenseCategory)
                                .build();
     }

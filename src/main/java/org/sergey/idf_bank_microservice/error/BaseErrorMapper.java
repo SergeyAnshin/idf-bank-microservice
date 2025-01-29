@@ -1,6 +1,7 @@
 package org.sergey.idf_bank_microservice.error;
 
 import lombok.RequiredArgsConstructor;
+import org.sergey.idf_bank_microservice.debittransaction.TransactionRegistrationException;
 import org.sergey.idf_bank_microservice.exception.EntityNotExistsException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
@@ -36,13 +37,18 @@ public class BaseErrorMapper implements ErrorMapper {
     @Override
     public ErrorResponse toErrorResponse(EntityNotExistsException ex, WebRequest request, HttpStatus status) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(status);
-        String titleCode = resolveMessageSourceCode(MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_PREFIX, ex.getEntityClass(),
-                                                    ex.getClass(), MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_TITLE_SUFFIX);
+        String titleCode = resolveMessageSourceCode(MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_PREFIX,
+                                                    ex.getEntityClass(),
+                                                    ex.getClass(),
+                                                    MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_TITLE_SUFFIX);
         String title = messageSource.getMessage(titleCode, null, request.getLocale());
         problemDetail.setTitle(title);
-        String detailCode = resolveMessageSourceCode(MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_PREFIX, ex.getEntityClass(),
-                                                     ex.getClass(), MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_DETAIL_SUFFIX);
-        String detail = messageSource.getMessage(detailCode, new String[]{ex.getLookupFieldValue()},
+        String detailCode = resolveMessageSourceCode(MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_PREFIX,
+                                                     ex.getEntityClass(),
+                                                     ex.getClass(),
+                                                     MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_DETAIL_SUFFIX);
+        String detail = messageSource.getMessage(detailCode,
+                                                 new String[]{ex.getLookupFieldValue()},
                                                  request.getLocale());
         problemDetail.setDetail(detail);
         problemDetail.setInstance(extractUri(request));
@@ -52,17 +58,40 @@ public class BaseErrorMapper implements ErrorMapper {
     @Override
     public ErrorResponse toErrorResponse(RuntimeException ex, HttpStatus status, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(status);
-        String titleCode = resolveMessageSourceCode(MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_PREFIX, ex.getClass(),
+        String titleCode = resolveMessageSourceCode(MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_PREFIX,
+                                                    ex.getClass(),
                                                     MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_TITLE_SUFFIX);
         String title = messageSource.getMessage(titleCode, null, request.getLocale());
         problemDetail.setTitle(title);
-        String detailCode = resolveMessageSourceCode(MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_PREFIX, ex.getClass(),
+        String detailCode = resolveMessageSourceCode(MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_PREFIX,
+                                                     ex.getClass(),
                                                      MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_DETAIL_SUFFIX);
         String detail = messageSource.getMessage(detailCode, null, request.getLocale());
         problemDetail.setDetail(detail);
         problemDetail.setInstance(extractUri(request));
         return ErrorResponse.builder().problemDetail(problemDetail).build();
 
+    }
+
+    @Override
+    public ErrorResponse toErrorResponse(TransactionRegistrationException ex, WebRequest request, HttpStatus status) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(status);
+        String titleCode = resolveMessageSourceCode(MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_PREFIX,
+                                                    ex.getEntityClass(),
+                                                    ex.getClass(),
+                                                    MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_TITLE_SUFFIX);
+        String title = messageSource.getMessage(titleCode, null, request.getLocale());
+        problemDetail.setTitle(title);
+        String detailCode = resolveMessageSourceCode(MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_PREFIX,
+                                                     ex.getEntityClass(),
+                                                     ex.getClass(),
+                                                     MESSAGE_SOURCE_CODE_PROBLEM_DETAIL_DETAIL_SUFFIX);
+        String detail = messageSource.getMessage(detailCode,
+                                                 new Object[]{""},
+                                                 request.getLocale());
+        problemDetail.setDetail(detail);
+        problemDetail.setInstance(extractUri(request));
+        return ErrorResponse.builder().problemDetail(problemDetail).build();
     }
 
     private List<ValidationError> toValidationErrorList(MethodArgumentNotValidException ex) {

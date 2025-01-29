@@ -11,9 +11,10 @@ public interface DebitTransactionMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "clientBankAccount.number", source = "accountFrom")
     @Mapping(target = "counterpartyBankAccount.number", source = "accountTo")
-    @Mapping(target = "accountCurrency.alphaCode", source = "currencyShortname")
+    @Mapping(target = "currency.alphaCode", source = "currencyShortname")
     @Mapping(target = "amount", source = "sum")
-    @Mapping(target = "expenseCategory.name", source = "expenseCategory")
+    @Mapping(target = "convertedAmount", ignore = true)
+    @Mapping(target = "expenseCategory.value", source = "expenseCategory")
     DebitTransaction toDebitTransaction(DebitTransactionDto debitTransactionDto);
 
     SuccessfulDebitTransactionDto toSuccessfulDebitTransactionDto(DebitTransaction debitTransactionDto);

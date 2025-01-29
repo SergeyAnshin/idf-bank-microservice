@@ -1,6 +1,7 @@
 package org.sergey.idf_bank_microservice.error;
 
 import lombok.RequiredArgsConstructor;
+import org.sergey.idf_bank_microservice.debittransaction.TransactionRegistrationException;
 import org.sergey.idf_bank_microservice.exception.EntityNotExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,13 @@ public class GlobalExceptionHandler {
         logger.info("Entity not exists: ", ex);
         ErrorResponse errorResponse = errorMapper.toErrorResponse(ex, request, HttpStatus.BAD_REQUEST);
         return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(TransactionRegistrationException.class)
+    public ResponseEntity<ErrorResponse> handleTransactionRegistrationException(TransactionRegistrationException ex,
+                                                                                WebRequest request) {
+        ErrorResponse errorResponse = errorMapper.toErrorResponse(ex, request, HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.internalServerError().body(errorResponse);
     }
 
 }

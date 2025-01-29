@@ -1,5 +1,6 @@
 package org.sergey.idf_bank_microservice.error;
 
+import org.sergey.idf_bank_microservice.debittransaction.TransactionRegistrationException;
 import org.sergey.idf_bank_microservice.exception.EntityNotExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -17,5 +18,7 @@ public interface ErrorMapper {
     ErrorResponse toErrorResponse(EntityNotExistsException ex, WebRequest request, HttpStatus httpStatus);
 
     ErrorResponse toErrorResponse(RuntimeException ex, HttpStatus httpStatus, WebRequest request);
+
+    ErrorResponse toErrorResponse(TransactionRegistrationException ex, WebRequest request, HttpStatus httpStatus);
 
 }
