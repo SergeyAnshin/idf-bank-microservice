@@ -23,4 +23,13 @@ public interface ExpenseLimitRepository extends JpaRepository<ExpenseLimit, Long
                                   @Param("categoryId") Long categoryId,
                                   @Param("bankAccountId") Long bankAccountId);
 
+    @Query("""
+            SELECT el
+            FROM ExpenseLimit el
+            WHERE el.bankAccount.id = :bankAccountId
+                AND el.expenseCategory.id = :expenseCategoryId
+            ORDER BY el.createdAt DESC
+            LIMIT 1
+            """)
+    Optional<ExpenseLimit> findLastLimitBy(long bankAccountId, long expenseCategoryId);
 }

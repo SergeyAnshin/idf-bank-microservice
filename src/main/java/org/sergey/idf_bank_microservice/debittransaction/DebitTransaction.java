@@ -40,5 +40,7 @@ public class DebitTransaction extends GeneralEntity {
     @JoinColumn(name = "expense_category_id", nullable = false, updatable = false)
     private ExpenseCategory expenseCategory;
     private OffsetDateTime dateTime;
+    @Column(name = "limit_exceeded")
+    private boolean isLimitExceeded;
 
 }

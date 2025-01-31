@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.sergey.idf_bank_microservice.currency.Currency;
 import org.sergey.idf_bank_microservice.currencyconverter.ConversionData;
 import org.sergey.idf_bank_microservice.currencyconverter.CurrencyConverter;
+import org.sergey.idf_bank_microservice.debittransaction.DebitTransaction;
 import org.sergey.idf_bank_microservice.entitypersister.EntityPersistenceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.sergey.idf_bank_microservice.currency.CurrencyUtils.haveSameAlphaCode;
@@ -62,5 +65,22 @@ public class ExpenseLimitService {
                                       expenseLimit.getValue(),
                                       expenseLimit.getExpenseCategory().getId(),
                                       expenseLimit.getBankAccount().getId());
+    }
+
+    public boolean isLimitExceeded(@NotNull ExpenseLimit expenseLimit,
+                                   @NotNull DebitTransaction currentTransaction,
+                                   @NotNull List<DebitTransaction> previousTransactions) {
+        BigDecimal prevTransactionsSum
+                = previousTransactions.stream()
+                                      .filter(transaction -> Objects.equals(transaction.getExpenseCategory(),
+                                                                            expenseLimit.getExpenseCategory()))
+                                      .map(DebitTransaction::getConvertedAmount)
+                                      .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalSum = prevTransactionsSum.add(currentTransaction.getConvertedAmount());
+        return totalSum.compareTo(expenseLimit.getValue()) > 0;
+    }
+
+    public Optional<ExpenseLimit> findLastLimitBy(@Min(1) long bankAccountId, @Min(1) long expenseCategoryId) {
+        return limitRepository.findLastLimitBy(bankAccountId, expenseCategoryId);
     }
 }
