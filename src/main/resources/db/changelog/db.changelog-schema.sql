@@ -28,7 +28,6 @@ CREATE TABLE expense_limit (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     val DECIMAL(15,6) NOT NULL DEFAULT 1000,
     expense_category_id BIGINT NOT NULL,
-    currency_id BIGINT NOT NULL,
     bank_account_id BIGINT NOT NULL,
     CONSTRAINT pk_expense_limit_id PRIMARY KEY (expense_limit_id)
 );
@@ -44,6 +43,7 @@ CREATE TABLE debit_transaction (
     converted_amount DECIMAL(15,6) NOT NULL,
     expense_category_id BIGINT NOT NULL,
     date_time TIMESTAMP WITH TIME ZONE NOT NULL,
+    limit_exceeded BOOLEAN NOT NULL,
     CONSTRAINT pk_debit_transaction_id PRIMARY KEY (debit_transaction_id)
 );
 
@@ -108,18 +108,30 @@ ALTER TABLE currency_pair_has_exchange_rate_source ADD CONSTRAINT fk_exchange_ra
 ALTER TABLE currency_pair_has_exchange_rate_source ADD CONSTRAINT fk_currency_pair_has_exchange_rate_source FOREIGN KEY (rate_source_id)
     REFERENCES exchange_rate_source (rate_source_id);
 
+--changeset Sergey:add-foreign-key-expense-limit-to-expense-category
+ALTER TABLE expense_limit ADD CONSTRAINT fk_expense_limit_expense_category FOREIGN KEY (expense_category_id)
+    REFERENCES expense_category (expense_category_id);
+
+--changeset Sergey:add-foreign-key-expense-limit-to-bank-account
+ALTER TABLE expense_limit ADD CONSTRAINT fk_expense_limit_bank_account FOREIGN KEY (bank_account_id)
+    REFERENCES bank_account (bank_account_id);
+
 --changeset Sergey:add-unique-currency-pair-exchange-rate-source
 ALTER TABLE currency_pair ADD CONSTRAINT uk_buy_sell_currency_id
     UNIQUE (buy_currency_id,sell_currency_id);
 
---changeset Sergey:add-unique-currency_alpha_code
+--changeset Sergey:add-unique-currency-alpha_code
 ALTER TABLE currency ADD CONSTRAINT uk_currency_alpha_code
     UNIQUE (alpha_code);
 
---changeset Sergey:add-unique-currency_alpha_code
+--changeset Sergey:add-unique-exchange-rate
 ALTER TABLE exchange_rate ADD CONSTRAINT uk_created_at_buy_sell_currency_id
     UNIQUE (created_at,buy_currency_id,sell_currency_id);
 
---changeset Sergey:add-unique-currency_alpha_code
+--changeset Sergey:add-unique-exchange-rate-source
 ALTER TABLE exchange_rate_source ADD CONSTRAINT uk_rate_source_name
     UNIQUE (name);
+
+--changeset Sergey:add-unique-expense-limit
+ALTER TABLE expense_limit ADD CONSTRAINT uk_created_at_val_expense_category_id_bank_account_id
+    UNIQUE (created_at,val,expense_category_id,bank_account_id);

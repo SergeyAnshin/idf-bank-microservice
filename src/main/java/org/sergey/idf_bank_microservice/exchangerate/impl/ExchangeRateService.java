@@ -1,5 +1,6 @@
 package org.sergey.idf_bank_microservice.exchangerate.impl;
 
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.sergey.idf_bank_microservice.currency.Currency;
 import org.sergey.idf_bank_microservice.currencypair.CurrencyPair;
@@ -64,5 +65,9 @@ public class ExchangeRateService {
             logger.error("No exchange rate found for CurrencyPair: {}", currencyPair);
             throw new ExchangeRateNotFoundException("No current exchange rate for CurrencyPair", currencyPair);
         }
+    }
+
+    public Optional<ExchangeRate> findLatestRateBy(@Min(1) long buyCurrencyId, @Min(1) long sellCurrencyId) {
+        return rateRepository.findLatestRate(buyCurrencyId, sellCurrencyId);
     }
 }
