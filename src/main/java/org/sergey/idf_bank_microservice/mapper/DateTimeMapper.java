@@ -11,6 +11,14 @@ import static java.util.Objects.nonNull;
 public interface DateTimeMapper {
     String BASE_OFFSET_DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ssX";
 
+    default String toStringOffsetDateTime(OffsetDateTime dateTime) {
+        if (nonNull(dateTime)) {
+            return dateTime.toString().replace('T', ' ');
+        } else {
+            return "";
+        }
+    }
+
     default OffsetDateTime toOffsetDateTime(String dateTime) {
         if (nonNull(dateTime)) {
             return OffsetDateTime.parse(dateTime, DateTimeFormatter.ofPattern(BASE_OFFSET_DATE_TIME_PATTERN));
@@ -18,5 +26,4 @@ public interface DateTimeMapper {
             return OffsetDateTime.MIN;
         }
     }
-
 }

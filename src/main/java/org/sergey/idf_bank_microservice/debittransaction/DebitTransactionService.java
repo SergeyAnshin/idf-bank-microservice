@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.sergey.idf_bank_microservice.currency.CurrencyUtils.haveSameAlphaCode;
 
@@ -77,4 +78,9 @@ public class DebitTransactionService {
         persistedTransaction.setLimitExceeded(isLimitExceeded);
     }
 
+    public List<DebitTransactionDto> findByExceededLimit(DebitTransactionDto debitTransactionDto) {
+        List<DebitTransaction> transactions
+                = transactionRepository.findByExceededLimit(debitTransactionDto.getAccountFrom());
+        return debitTransactionMapper.toDebitTransactionDtoList(transactions);
+    }
 }

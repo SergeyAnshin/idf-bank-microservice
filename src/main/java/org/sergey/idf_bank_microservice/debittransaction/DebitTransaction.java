@@ -42,5 +42,7 @@ public class DebitTransaction extends GeneralEntity {
     private OffsetDateTime dateTime;
     @Column(name = "limit_exceeded")
     private boolean isLimitExceeded;
+    @Transient
+    private String limitSum;
 
 }
