@@ -13,9 +13,9 @@ import java.net.URI;
 @RequiredArgsConstructor
 
 @RestController
-@RequestMapping("/api/expense-limit")
+@RequestMapping("/api/expense-limits")
 public class ExpenseLimitController {
-    public static final String BASE_URI = "/api/expense-limit";
+    public static final String BASE_URI = "/api/expense-limits/";
     private final ExpenseLimitService expenseLimitService;
 
     @PostMapping

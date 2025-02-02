@@ -2,12 +2,14 @@ package org.sergey.idf_bank_microservice.currency;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.sergey.idf_bank_microservice.currency.CurrencyUtils.haveSameAlphaCode;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class CurrencyUtilsTest {
 
     @Test

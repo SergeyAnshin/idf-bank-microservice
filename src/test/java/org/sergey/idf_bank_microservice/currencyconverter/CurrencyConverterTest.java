@@ -2,12 +2,14 @@ package org.sergey.idf_bank_microservice.currencyconverter;
 
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.sergey.idf_bank_microservice.currency.Currency;
-import org.sergey.idf_bank_microservice.exchangerate.ExchangeRateNotFoundException;
 import org.sergey.idf_bank_microservice.exchangerate.impl.ExchangeRateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
@@ -15,8 +17,11 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
 class CurrencyConverterTest {
     @MockitoBean
     private ExchangeRateService exchangeRateService;
@@ -52,12 +57,12 @@ class CurrencyConverterTest {
     }
 
     @Test
-    void givenValidDara_whenLatestRateIsNull_thenThrowExchangeRateNotFoundException() {
+    void givenValidDara_whenLatestRateIsNull_thenThrowCurrencyConversionException() {
         Currency buyCurrency = Currency.builder().id(1).build();
         Currency sellCurrency = Currency.builder().id(2).build();
-        Mockito.when(exchangeRateService.findLatestRateBy(buyCurrency.getId(), sellCurrency.getId())).thenReturn(
-                Optional.empty());
-        assertThrows(ExchangeRateNotFoundException.class,
+        when(exchangeRateService.findLatestRateBy(buyCurrency.getId(),
+                                                  sellCurrency.getId())).thenReturn(Optional.empty());
+        assertThrows(CurrencyConversionException.class,
                      () -> currencyConverter.convert(new ConversionData(buyCurrency,
                                                                         sellCurrency,
                                                                         BigDecimal.valueOf(3))));

@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/debit-transactions")
 public class DebitTransactionController {
-    public static final String BASE_URI = "/api/debit-transaction/";
+    public static final String BASE_URI = "/api/debit-transactions/";
     private final DebitTransactionService debitTransactionService;
 
     @PostMapping

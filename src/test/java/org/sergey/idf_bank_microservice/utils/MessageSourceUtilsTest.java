@@ -3,10 +3,14 @@ package org.sergey.idf_bank_microservice.utils;
 import org.junit.jupiter.api.Test;
 import org.sergey.idf_bank_microservice.entity.GeneralEntity;
 import org.sergey.idf_bank_microservice.exception.EntityNotExistsException;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.sergey.idf_bank_microservice.utils.MessageSourceUtils.resolveMessageSourceCode;
 
+@SpringBootTest
+@ActiveProfiles("test")
 class MessageSourceUtilsTest {
 
     @Test

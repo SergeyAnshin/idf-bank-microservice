@@ -8,6 +8,7 @@ import org.sergey.idf_bank_microservice.debittransaction.DebitTransaction;
 import org.sergey.idf_bank_microservice.expensecategory.ExpenseCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class ExpenseLimitServiceTest {
     private ExpenseCategory productCategory;
     private BankAccount clientBankAccount;

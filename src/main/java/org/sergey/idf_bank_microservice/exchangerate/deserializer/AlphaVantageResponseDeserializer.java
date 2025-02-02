@@ -32,7 +32,7 @@ public class AlphaVantageResponseDeserializer extends StdDeserializer<AlphaVanta
             if (nonNull(rateNode)) {
                 String buyCurrency = rateNode.get("1. From_Currency Code").asText();
                 String sellCurrency = rateNode.get("3. To_Currency Code").asText();
-                BigDecimal rate = rateNode.get("5. Exchange Rate").decimalValue();
+                BigDecimal rate = new BigDecimal(node.get("5. Exchange Rate").asText());
                 return AlphaVantageResponse.builder()
                         .buyCurrency(buyCurrency)
                         .sellCurrency(sellCurrency)
