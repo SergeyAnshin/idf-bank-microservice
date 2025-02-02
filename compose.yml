@@ -32,7 +32,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: /run/secrets/db_password
     expose:
-      - 5432:5432
+      - 5432
     networks:
       - app-network
     healthcheck:
