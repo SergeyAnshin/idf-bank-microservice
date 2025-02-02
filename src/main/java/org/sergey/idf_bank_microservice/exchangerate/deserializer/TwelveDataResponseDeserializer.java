@@ -28,13 +28,14 @@ public class TwelveDataResponseDeserializer extends StdDeserializer<TwelveDataRe
             String[] currencyPair = node.get("symbol").asText().split("/");
             String buyCurrency = currencyPair[0];
             String sellCurrency = currencyPair[1];
-            BigDecimal rate = node.get("rate").decimalValue();
 
+
+            BigDecimal rate = new BigDecimal(node.get("rate").asText());
             return TwelveDataResponse.builder()
-                    .buyCurrency(buyCurrency)
-                    .sellCurrency(sellCurrency)
-                    .buyRate(rate)
-                    .build();
+                                     .buyCurrency(buyCurrency)
+                                     .sellCurrency(sellCurrency)
+                                     .buyRate(rate)
+                                     .build();
         } catch (IOException e) {
             logger.warn("Error deserializing response from {}", TWELVE_DATA.name());
             return null;

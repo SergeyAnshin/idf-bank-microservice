@@ -15,11 +15,11 @@ INSERT INTO bank_account(number,currency_id) VALUES
     ('2',1);
 
 --changeset Sergey:insert-into-expense-limit
-INSERT INTO expense_limit(expense_category_id,currency_id,bank_account_id) VALUES
-    (1,1,1),
-    (2,1,1),
-    (1,1,2),
-    (2,1,2);
+INSERT INTO expense_limit(val,expense_category_id,bank_account_id,created_at) VALUES
+    (1000,1,1,'2022-01-01 20:08:54+06'),
+    (2000,1,1,'2022-01-10 20:08:54+06'),
+    (1000,1,2,'2022-02-01 20:08:54+06'),
+    (400,1,2,'2022-02-10 20:08:54+06');
 
 --changeset Sergey:insert-into-currency-pair
 INSERT INTO currency_pair(buy_currency_id,sell_currency_id) VALUES
@@ -42,3 +42,18 @@ INSERT INTO currency_pair_has_exchange_rate_source(rate_source_id,currency_pair_
 INSERT INTO exchange_rate(buy_currency_id,sell_currency_id, buy_rate) VALUES
     (1,3,0.0019),
     (1,2,0.0102);
+
+--changeset Sergey:insert-into-debit-transaction
+INSERT INTO debit_transaction(client_account_id,counterparty_account_id,account_currency_id,amount,converted_amount,expense_category_id,date_time,limit_exceeded) VALUES
+    (1,2,1,500,500,1,'2022-01-02 20:08:54+06',false),
+    (1,2,1,600,600,1,'2022-01-03 20:08:54+06',true),
+    (1,2,1,100,100,1,'2022-01-11 20:08:54+06',false),
+    (1,2,1,700,700,1,'2022-01-12 20:08:54+06',false),
+    (1,2,1,100,100,1,'2022-01-13 20:08:54+06',false),
+    (1,2,1,100,100,1,'2022-01-13 20:08:54+06',true);
+
+INSERT INTO debit_transaction(client_account_id,counterparty_account_id,account_currency_id,amount,converted_amount,expense_category_id,date_time,limit_exceeded) VALUES
+    (2,1,1,500,500,1,'2022-01-02 20:08:54+06',false),
+    (2,1,1,100,100,1,'2022-01-03 20:08:54+06',false),
+    (2,1,1,100,100,1,'2022-02-11 20:08:54+06',true),
+    (2,1,1,100,100,1,'2022-02-12 20:08:54+06',true);

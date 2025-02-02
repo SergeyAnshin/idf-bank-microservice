@@ -18,7 +18,7 @@ import java.util.List;
 
 @Entity
 @Table(uniqueConstraints = {
-        @UniqueConstraint(name = "uk_buy_sell_currency_id", columnNames = {"buy_currency_id", "sell_currency_id"})
+        @UniqueConstraint(name = "uk_buy_sell_currency_id", columnNames = { "buy_currency_id", "sell_currency_id" })
 })
 @AttributeOverrides({
         @AttributeOverride(name = "id", column = @Column(name = "currency_pair_id"))
@@ -42,8 +42,7 @@ public class CurrencyPair extends GeneralEntity {
     @ToString.Exclude
     @ManyToMany
     @JoinTable(name = "currency_pair_has_exchange_rate_source",
-            joinColumns = @JoinColumn(name = "currency_pair_id", referencedColumnName = "currency_pair_id"),
-            inverseJoinColumns = @JoinColumn(name = "rate_source_id", referencedColumnName = "rate_source_id"))
+               joinColumns = @JoinColumn(name = "currency_pair_id", referencedColumnName = "currency_pair_id"),
+               inverseJoinColumns = @JoinColumn(name = "rate_source_id", referencedColumnName = "rate_source_id"))
     private List<ExchangeRateSource> exchangeRateSources;
-
 }

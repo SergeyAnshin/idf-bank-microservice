@@ -1,6 +1,8 @@
 package org.sergey.idf_bank_microservice.mapper;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,6 +11,8 @@ import java.time.format.DateTimeParseException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@SpringBootTest
+@ActiveProfiles("test")
 class DateTimeMapperDefaultMethodTest {
     private final DateTimeMapper dateTimeMapper = new DateTimeMapper() {};
 
