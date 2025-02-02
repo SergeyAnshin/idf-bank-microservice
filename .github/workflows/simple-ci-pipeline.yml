@@ -21,7 +21,7 @@ jobs:
       
       - name: Create db password file
         run: |
-          echo "Hello" > src/main/resources/secrets/password.txt
+          echo "Hello" > /home/runner/work/idf-bank-microservice/idf-bank-microservice/src/main/resources/secrets/password.txt
       
       - name: Build with Maven
         run: mvn clean install
