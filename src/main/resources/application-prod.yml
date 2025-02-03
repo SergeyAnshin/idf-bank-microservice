@@ -1,0 +1,26 @@
+exchange-rate-fetcher:
+  executor-service:
+    currency-pair:
+      pool-size: 4
+    exchange-rate-source:
+      pool-size: 8
+  cron-fetch-schedule: ${RATE_FETCH_SCHEDULE_CRON}
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    enabled: true
+    change-log: db/changelog/db.changelog-master.yml
+
+server:
+  port: ${SERVER_PORT}
+
+logging:
+  file:
+    path: src/main/resources/logs

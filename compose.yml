@@ -1,0 +1,53 @@
+services:
+  api:
+    container_name: idf_bank_microservice_api
+    image: idf_bank_microservice_api_image:latest
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    secrets:
+      - db_password
+    environment:
+      ACTIVE_PROFILE: prod
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bank_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: /run/secrets/db_password
+      RATE_FETCH_SCHEDULE_CRON: 0 */3 * * * *
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    container_name: idf_bank_microservice_db
+    image: postgres:latest
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/changelog/:/docker-entrypoint-initdb.d/:ro
+    environment:
+      POSTGRES_DB: bank_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: /run/secrets/db_password
+    expose:
+      - 5432
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d bank_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+networks:
+  app-network:
+
+volumes:
+  db-data:
+
+secrets:
+  db_password:
+    file: ./src/main/resources/secrets/password.txt
