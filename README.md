@@ -36,6 +36,14 @@ transactions that exceed the limit.
 - **Maven**
 - **Docker**
 
+### Special Conditions
+
+- **Currency Exchange Rate Sources**: The application can utilize multiple sources to retrieve currency exchange rates.
+  In this project, `twelvedata.com` and `alphavantage.co` are used as sources. The system is scalable to include
+  additional sources as needed.
+- **API Keys Requirement**: Each of these sources requires an API key. For proper functioning, you need to set the API
+  key in the database in the `exchange_rate_source` table.
+
 ### Running with Docker
 
 1. Clone the repository:
